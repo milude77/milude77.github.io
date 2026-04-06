@@ -1,10 +1,14 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory  } from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     component: () => import("@/pages/RootPage.vue"),
+  },
+  {
+    path: "/posts-list",
+    component: () => import("@/pages/PostsPage.vue"),
   },
   {
     path: "/about",
@@ -20,19 +24,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/pages/RootPage.vue"),
       },
     ],
-  },
-  {
-    path: "/login",
-    component: () => import("@/pages/LoginPage.vue"),
-  },
-  {
-    path: "/register",
-    component: () => import("@/pages/RegisterPage.vue"),
-  },
+  }
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes,
 });
 

@@ -7,21 +7,30 @@
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
-    "deploy": "gh-pages -d dist"
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:serve": "vitepress serve docs/.vitepress/dist",
+    "deploy": "npm run docs:build && mkdir deploy-temp && xcopy /e /i /y dist\\* deploy-temp\\ && mkdir deploy-temp\\blog && xcopy /e /i /y docs\\.vitepress\\dist\\* deploy-temp\\blog\\ && gh-pages -d deploy-temp",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
     "@iconify/vue": "^5.0.0",
     "element-plus": "^2.13.6",
+    "markdown-it": "^14.1.1",
     "vue": "^3.5.30",
     "vue-router": "^5.0.4"
   },
   "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
     "@types/node": "^24.12.0",
     "@vitejs/plugin-vue": "^6.0.5",
     "@vue/tsconfig": "^0.9.0",
     "gh-pages": "^6.3.0",
     "typescript": "~5.9.3",
     "vite": "^8.0.1",
+    "vitepress": "^1.6.4",
     "vue-tsc": "^3.2.5"
   }
 }

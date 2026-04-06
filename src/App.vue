@@ -1,15 +1,9 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { ElInput, ElButton } from 'element-plus';
-import { useRoute } from 'vue-router';
 
-const route = useRoute();
 const keyword = ref('');
 
-// 判断是否为登录/注册页面
-const isAuthPage = computed(() => {
-  return route.path === '/login' || route.path === '/register';
-});
 
 const handleSearch = () => {
   console.log('搜索内容:', keyword.value);
@@ -18,11 +12,12 @@ const handleSearch = () => {
 
 <template>
   <div id="app">
-    <header v-if="!isAuthPage">
+    <header>
       <div class="header-bar">
         <div class="header-nav-bar">
           <nav>
             <router-link to="/">首页</router-link>
+            <router-link to="/posts-list">文章</router-link>
             <router-link to="/mini-game">小游戏</router-link>
             <router-link to="/about">关于作者</router-link>
           </nav>
@@ -33,12 +28,6 @@ const handleSearch = () => {
               <ElButton @click="handleSearch">搜索</ElButton>
             </template>
           </ElInput>
-        </div>
-        <div class="header-auth-bar">
-          <nav>
-            <router-link to="/login">登录</router-link>
-            <router-link to="/register">注册</router-link>
-          </nav>
         </div>
       </div>
     </header>
@@ -120,7 +109,7 @@ footer a:hover {
   display: flex;
   flex: 1;
   justify-content: end;
-  transform: translateX(-15%);
+  transform: translateX(-20%);
 }
 
 .header-search-bar {
@@ -130,10 +119,6 @@ footer a:hover {
   margin: 0 16px;
 }
 
-.header-auth-bar {
-  display: flex;
-  margin-right: 16px;
-}
 
 /* 移动端适配 */
 @media (max-width: 768px) {
@@ -144,8 +129,7 @@ footer a:hover {
     padding: 12px 0;
   }
 
-  .header-nav-bar,
-  .header-auth-bar {
+  .header-nav-bar {
     align-items: center;
     justify-content: center;
     margin: 0;
