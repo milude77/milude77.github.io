@@ -1,0 +1,1 @@
+import{A as e,P as t,V as n,_ as r,d as i,g as a,m as o,t as s}from"./_plugin-vue_export-helper-BH73VFPX.js";var c={};function l(s,c){let l=t(`router-link`);return e(),o(`div`,null,[c[1]||=i(`h1`,null,`啊哦， 来到的没有知识的空白页`,-1),c[2]||=i(`p`,null,`您访问的页面不存在。`,-1),r(l,{to:`/`},{default:n(()=>[...c[0]||=[a(`返回首页`,-1)]]),_:1})])}var u=s(c,[[`render`,l]]);export{u as default};
