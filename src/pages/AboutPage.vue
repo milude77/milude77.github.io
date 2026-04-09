@@ -19,17 +19,20 @@
 <script setup lang="ts">
 import Avatar from '../components/Avatar.vue'
 import { Icon } from '@iconify/vue'
-const avatarSrc = new URL('../assets/milude77Avatar.jpg', import.meta.url).href
+const avatarSrc = new URL('@/assets/milude77Avatar.jpg', import.meta.url).href
 
 </script>
 
 <style scoped>
 .root-user-info {
+  background-color: rgba(0, 0, 0, 0.3);
+  color: var(--text);
   margin: 0;
   padding-top: 0;
   width: 15em;
   height: 8em;
   display: grid;
+  text-overflow: clip;
   grid-template-columns: 80px 1fr;
   align-items: center;
 }

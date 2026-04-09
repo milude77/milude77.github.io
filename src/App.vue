@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { ElInput, ElButton } from 'element-plus';
+import { initSnowBackground } from '@/assets/rootPageAssets/ts/SnowflakeFallingEffect.ts'
+
+initSnowBackground()
 
 const keyword = ref('');
-
 
 const handleSearch = () => {
   console.log('搜索内容:', keyword.value);
@@ -43,13 +45,24 @@ const handleSearch = () => {
 </template>
 
 <style scoped>
+
+#app {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  text-align: center;
+  border-inline: 1px solid var(--border);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
 header {
   position: sticky;
   border-bottom: 1px solid var(--border);
   padding: 1em;
   top: 0;
-  background-color: var(--bg);
-  opacity: 1
 }
 
 header h1 {
@@ -118,6 +131,7 @@ footer a:hover {
   max-width: 300px;
   margin: 0 16px;
 }
+
 
 
 /* 移动端适配 */

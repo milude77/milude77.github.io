@@ -16,7 +16,7 @@ onMounted(async () => {
         <a :href="post.url" class="post-title">
           {{ post.title }}
         </a>
-        <p class="post-meta">{{ post.date }}</p>
+        <p class="post-meta">作者：{{ post.auth }} | 发布时间：{{ post.date }}</p>
         <p class="post-excerpt">{{ post.excerpt }}</p>
       </li>
     </ul>
@@ -28,16 +28,7 @@ onMounted(async () => {
   max-width: 900px;
   margin: 0 auto;
   padding: 32px 16px;
-}
-
-.list-header h1 {
-  margin: 0;
-  font-size: 2rem;
-}
-
-.list-header p {
-  margin: 8px 0 24px;
-  color: var(--text);
+  color: rgb(255, 255, 255);
 }
 
 ul {
@@ -46,7 +37,12 @@ ul {
   padding: 0;
 }
 
+a{
+  color: aliceblue;
+}
+
 .post-card {
+  background-color: rgba(0, 0, 0, 0.5);
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 20px;
@@ -62,7 +58,7 @@ ul {
 .post-title {
   font-size: 1.35rem;
   font-weight: 700;
-  color: var(--text-h);
+  color: var(--text);
   text-decoration: none;
 }
 

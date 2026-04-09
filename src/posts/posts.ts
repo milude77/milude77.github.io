@@ -7,16 +7,22 @@ export interface PostMeta {
   url: string;
 }
 
-// 从 docs/posts 目录的文章配置
 const articlesConfig: PostMeta[] = [
   {
-    auth: "迷路的77",
-    slug: "binary-search",
-    title: "二分算法详解",
+    auth: "一只迷路的77",
+    slug: "algorithm-twoPointers-receiveRainWater",
+    title: "接雨水",
     date: "2026-04-06",
-    excerpt:
-      "深入理解二分算法的原理、实现和应用场景，包含完整的 Python 代码示例和复杂度分析。",
-    url: "/blog/posts/binary-search.html",
+    excerpt: "经典的双指针类型题目，不规则容器容量问题",
+    url: "/blog/posts/algorithm/twoPointers/receiveRainWater",
+  },
+  {
+    auth: "一只迷路的77",
+    slug: "algorithm-twoPointers-removeDuplicates",
+    title: "删除重复元素",
+    date: "2026-04-06",
+    excerpt: "经典的双指针类型题目，不规则容器容量问题",
+    url: "/blog/posts/algorithm/twoPointers/removeDuplicates",
   },
 ];
 

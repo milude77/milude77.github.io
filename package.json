@@ -11,14 +11,13 @@
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs/.vitepress/dist",
     "deploy": "npm run docs:build && mkdir deploy-temp && xcopy /e /i /y dist\\* deploy-temp\\ && mkdir deploy-temp\\blog && xcopy /e /i /y docs\\.vitepress\\dist\\* deploy-temp\\blog\\ && gh-pages -d deploy-temp",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "npm run docs:build && vitepress preview docs"
   },
   "dependencies": {
     "@iconify/vue": "^5.0.0",
     "element-plus": "^2.13.6",
     "markdown-it": "^14.1.1",
+    "three": "^0.183.2",
     "vue": "^3.5.30",
     "vue-router": "^5.0.4"
   },

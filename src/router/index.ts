@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory  } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
@@ -24,11 +24,15 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/pages/RootPage.vue"),
       },
     ],
+  },
+  {
+    path: "/:pathMatch(.*)*", // 404 页面
+    component: () => import("@/pages/NotFoundPage.vue"),
   }
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 });
 
