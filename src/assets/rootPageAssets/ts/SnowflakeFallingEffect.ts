@@ -5,32 +5,36 @@ import snow2 from "@/assets/rootPageAssets/images/ParticleSmoke2.png";
 import bgImageUrl from "@/assets/rootPageAssets/images/backgroundImg.jpg";
 
 export async function initSnowBackground(options?: {
-  containerId?: string;
   bgImage?: string;
   snowImages?: string[];
   count?: number;
 }) {
   const {
-    containerId = "app",
     bgImage = bgImageUrl,
     snowImages = [snow1, snow2],
     count = 70,
   } = options || {};
 
-  const container = document.getElementById(containerId);
+  const container = document.createElement("div");
   if (!container) {
     console.error("Container not found");
     return;
   }
 
-
-  // 设置背景
+  container.style.position = "fixed";
+  container.style.top = "0";
+  container.style.left = "0";
+  container.style.width = "100vw";
+  container.style.height = "100vh";
   container.style.backgroundImage = `url(${bgImage})`;
   container.style.backgroundSize = "cover";
   container.style.backgroundPosition = "center";
   container.style.backgroundRepeat = "no-repeat";
-  container.style.overflow = "hidden";
-  container.style.opacity = '0.8'
+  container.style.zIndex = "-1";
+  container.style.opacity = "0.8";
+  container.style.pointerEvents = "none";
+
+  document.body.appendChild(container);
 
   // 创建 canvas
   const canvas = document.createElement("canvas");
@@ -46,6 +50,8 @@ export async function initSnowBackground(options?: {
   container.appendChild(canvas);
 
   function resize() {
+    // 修复: container 可能为 null 的问题
+    if (!container) return;
     canvas.width = container.clientWidth;
     canvas.height = container.clientHeight;
   }
@@ -79,14 +85,16 @@ export async function initSnowBackground(options?: {
 
   // ================= 雪花类 =================
   class Snowflake {
-    x: number;
-    y: number;
-    size: number;
-    speedY: number;
-    speedX: number;
+    x: number = 0;
+    y: number = 0;
+    size: number = 10;
+    speedY: number = 0.5;
+    speedX: number = 0;
     img: HTMLImageElement;
 
     constructor() {
+      // 确保 img 至少有一个默认值（虽然 reset 会覆盖）
+      this.img = imgs[0];
       this.reset(true);
     }
 

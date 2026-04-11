@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { getPosts, type PostMeta } from '@/posts/posts';
+import { getPosts, type PostMeta } from '../posts/posts';
 
 const posts = ref<PostMeta[]>([]);
 
 onMounted(async () => {
   posts.value = await getPosts();
+  posts.value = posts.value.map((post) => {
+    if (!post.imgUrl) return post
+    return { ...post, imgUrl: new URL(post.imgUrl, import.meta.url).href };
+  })
 });
 </script>
 
@@ -13,11 +17,14 @@ onMounted(async () => {
   <section class="posts-list">
     <ul>
       <li v-for="post in posts" :key="post.slug" class="post-card">
-        <a :href="post.url" class="post-title">
-          {{ post.title }}
-        </a>
-        <p class="post-meta">作者：{{ post.auth }} | 发布时间：{{ post.date }}</p>
-        <p class="post-excerpt">{{ post.excerpt }}</p>
+        <div class="post-info">
+          <a :href="post.url" class="post-title">
+            {{ post.title }}
+          </a>
+          <p class="post-meta">作者：{{ post.auth }} | 发布时间：{{ post.date }}</p>
+          <p class="post-tag">标签：{{ post.tag.join(' ') }}</p>
+        </div>
+        <img v-if="post.imgUrl" loading="lazy" :src="post.imgUrl" alt="题目图">
       </li>
     </ul>
   </section>
@@ -37,11 +44,15 @@ ul {
   padding: 0;
 }
 
-a{
+a {
   color: aliceblue;
 }
 
 .post-card {
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  gap: 16px;
+
   background-color: rgba(0, 0, 0, 0.5);
   border: 1px solid var(--border);
   border-radius: 14px;
@@ -53,6 +64,12 @@ a{
 .post-card:hover {
   border-color: var(--accent);
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+.post-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .post-title {
@@ -72,9 +89,15 @@ a{
   font-size: 0.95rem;
 }
 
-.post-excerpt {
+.post-tag {
   margin: 12px 0 0;
   color: var(--text);
   line-height: 1.8;
+}
+
+img {
+  width: 200px;
+  height: 100px;
+  object-fit: cover;
 }
 </style>

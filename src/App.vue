@@ -1,20 +1,40 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { ElInput, ElButton } from 'element-plus';
-import { initSnowBackground } from '@/assets/rootPageAssets/ts/SnowflakeFallingEffect.ts'
+import { initSnowBackground } from './assets/rootPageAssets/ts/SnowflakeFallingEffect.ts'
 
 initSnowBackground()
 
 const keyword = ref('');
+const sentinel = ref<HTMLElement | null>(null);
+const isSticky= ref<boolean>(false)
 
 const handleSearch = () => {
   console.log('搜索内容:', keyword.value);
 };
+
+onMounted(() => {
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      isSticky.value = !entry.isIntersecting
+    },
+    {
+      threshold: 0
+    }
+  )
+
+  if (sentinel.value) {
+    observer.observe(sentinel.value)
+  }
+})
+
 </script>
 
 <template>
   <div id="app">
-    <header>
+    <div ref="sentinel"></div>
+
+    <header :class="{ stickyActive: isSticky }">
       <div class="header-bar">
         <div class="header-nav-bar">
           <nav>
@@ -60,15 +80,24 @@ const handleSearch = () => {
 
 header {
   position: sticky;
-  border-bottom: 1px solid var(--border);
-  padding: 1em;
+  height: auto;
+  width: 100wh;
+  padding: 1em 0;
   top: 0;
+  transition: background-color 0.3s, backdrop-filter 0.3s;
+}
+
+/* sticky 触发后 */
+header.stickyActive {
+  background-color: rgba(20, 20, 20, 0.8);
+  backdrop-filter: blur(10px); 
 }
 
 header h1 {
   margin: 0 0 12px;
   font-size: 32px;
 }
+
 
 nav {
   display: flex;
@@ -122,7 +151,7 @@ footer a:hover {
   display: flex;
   flex: 1;
   justify-content: end;
-  transform: translateX(-20%);
+  transform: translateX(-30%);
 }
 
 .header-search-bar {

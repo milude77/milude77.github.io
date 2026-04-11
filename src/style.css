@@ -29,8 +29,6 @@
   }
 }
 
-
-
 /* 全局 loading 样式 */
 .global-loading .el-loading-spinner .circular {
   width: 36px;
@@ -54,9 +52,9 @@
   }
 }
 
-body {
+body{
   margin: 0;
-  overflow-y: auto;
+  padding: 0;
 }
 
 h1,

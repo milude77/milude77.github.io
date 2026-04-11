@@ -5,11 +5,11 @@
       <span class="user-name">一只迷路的77</span>
       <div class="user-contact-info">
         <a class="user-github-url" href="https://github.com/milude77" target="_blank" rel="noopener noreferrer">
-          <Icon icon="mdi:github" width="24" height="24" />
+          <Icon color="white" icon="mdi:github" width="24" height="24" />
         </a>
         <a class="user-bilibili-url" href="https://space.bilibili.com/1788933807" target="_blank"
           rel="noopener noreferrer">
-          <Icon icon="simple-icons:bilibili" width="24" height="24" />
+          <Icon color="white" icon="simple-icons:bilibili" width="24" height="24" />
         </a>
       </div>
     </div>
@@ -35,6 +35,7 @@ const avatarSrc = new URL('@/assets/milude77Avatar.jpg', import.meta.url).href
   text-overflow: clip;
   grid-template-columns: 80px 1fr;
   align-items: center;
+  border-radius: 15px;
 }
 
 .user-info {
