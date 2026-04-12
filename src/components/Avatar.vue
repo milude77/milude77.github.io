@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { ElAvatar } from 'element-plus';
-import defaultAvatar from '@/assets/default_avatar.png';
+import defaultAvatar from '@/assets/images/default_avatar.png';
 
 const props = defineProps({
   src: {

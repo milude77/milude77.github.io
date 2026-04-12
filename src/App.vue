@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import { ElInput, ElButton } from 'element-plus';
 import { initSnowBackground } from './assets/rootPageAssets/ts/SnowflakeFallingEffect.ts'
 
@@ -8,7 +9,7 @@ initSnowBackground()
 const keyword = ref('');
 const sentinel = ref<HTMLElement | null>(null);
 const isSticky= ref<boolean>(false)
-
+const route = useRoute()
 const handleSearch = () => {
   console.log('搜索内容:', keyword.value);
 };
@@ -28,19 +29,30 @@ onMounted(() => {
   }
 })
 
+const isShow = ref(true)
+
+watch(route, () => {
+  if (route.path.startsWith('/miniGame')){
+    isShow.value = false
+  }
+  else{
+    isShow.value = true
+  }
+})
+
 </script>
 
 <template>
   <div id="app">
     <div ref="sentinel"></div>
 
-    <header :class="{ stickyActive: isSticky }">
+    <header v-if="isShow" :class="{ stickyActive: isSticky }">
       <div class="header-bar">
         <div class="header-nav-bar">
           <nav>
             <router-link to="/">首页</router-link>
             <router-link to="/posts-list">文章</router-link>
-            <router-link to="/mini-game">小游戏</router-link>
+            <router-link to="/mini-game-list">小游戏</router-link>
             <router-link to="/about">关于作者</router-link>
           </nav>
         </div>
@@ -58,7 +70,7 @@ onMounted(() => {
       <router-view />
     </main>
 
-    <footer>
+    <footer v-if="isShow">
       <p>&copy; {{ new Date().getFullYear() }} 迷路的77的博客. 所有版权归作者所有.</p>
     </footer>
   </div>

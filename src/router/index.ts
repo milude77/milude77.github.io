@@ -15,20 +15,17 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/pages/AboutPage.vue"),
   },
   {
-    path: "/mini-game",
-    component: () => import("@/pages/MiniGamePage.vue"),
-    children: [
-      {
-        path: ":id", // 动态参数配置正确
-        // 修改为专门的游戏详情组件（假设存在）
-        component: () => import("@/pages/RootPage.vue"),
-      },
-    ],
+    path: "/mini-game-list",
+    component: () => import("@/pages/miniGames/MiniGamePage.vue"),
+  },
+  {
+    path: "/miniGame/:gameName",
+    component: () => import("@/pages/miniGames/GameContainer.vue"),
   },
   {
     path: "/:pathMatch(.*)*", // 404 页面
     component: () => import("@/pages/NotFoundPage.vue"),
-  }
+  },
 ];
 
 const router = createRouter({

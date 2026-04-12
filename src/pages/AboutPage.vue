@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import Avatar from '../components/Avatar.vue'
 import { Icon } from '@iconify/vue'
-const avatarSrc = new URL('@/assets/milude77Avatar.jpg', import.meta.url).href
+const avatarSrc = new URL('@/assets/images/milude77Avatar.jpg', import.meta.url).href
 
 </script>
 

@@ -9,8 +9,8 @@ export interface PostMeta {
   imgUrl?: string;
 }
 
-import theContainerWithTheMostWaterCapacity from "@/assets/theContainerWithTheMostWaterCapacity.jpg"
-import rainwatertrap from "@/assets/rainwatertrap.jpg"
+import theContainerWithTheMostWaterCapacity from "@/assets/images/theContainerWithTheMostWaterCapacity.jpg"
+import rainwatertrap from "@/assets/images/rainwatertrap.jpg"
 
 const articlesConfig: PostMeta[] = [
   {
