@@ -1,0 +1,1 @@
+import{A as e,m as t,t as n}from"./_plugin-vue_export-helper-SCWU91jr.js";var r={},i={class:`mini-game-container`};function a(n,r){return e(),t(`div`,i)}var o=n(r,[[`render`,a],[`__scopeId`,`data-v-41bdc29c`]]);export{o as default};

@@ -1,0 +1,1 @@
+import{t as e}from"./NotFoundPage-BK034mms.js";import{A as t,F as n,f as r,u as i,v as a}from"./_plugin-vue_export-helper-SCWU91jr.js";import{M as o}from"./index-khuzUs7M.js";var s=a({__name:`GameContainer`,setup(a){let s={},c=o(),l=i(()=>s[c.params.gameName]||e);return(e,i)=>(t(),r(n(l.value)))}});export{s as default};
