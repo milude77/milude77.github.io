@@ -13,6 +13,8 @@
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
+  --vue-color: rgba(66, 184, 131, 0.6);
+  --ts-color: rgba(66, 157, 184, 0.6);
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
@@ -52,7 +54,7 @@
   }
 }
 
-body{
+body {
   margin: 0;
   padding: 0;
 }
@@ -327,6 +329,7 @@ code {
 }
 
 * {
-  scrollbar-width: thin; /* thin / auto */
+  scrollbar-width: thin;
+  /* thin / auto */
   scrollbar-color: rgba(100, 100, 100, 0.4) transparent;
 }

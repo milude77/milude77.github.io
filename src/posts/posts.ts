@@ -18,7 +18,7 @@ const articlesConfig: PostMeta[] = [
     slug: "algorithm-twoPointers-receiveRainWater",
     title: "接雨水",
     date: "2026-04-06",
-    url: "/blog/posts/algorithm/twoPointers/receiveRainWater.html",
+    url: "/blog/posts/algorithm/posts/receiveRainWater.html",
     type:'算法',
     imgUrl: rainwatertrap,
     tag: ["双指针"],
@@ -30,7 +30,7 @@ const articlesConfig: PostMeta[] = [
     date: "2026-04-06",
     tag: ["双指针"],
     type:'算法',
-    url: "/blog/posts/algorithm/twoPointers/removeDuplicates.html",
+    url: "/blog/posts/algorithm/posts/removeDuplicates.html",
     
   },
   {
@@ -40,7 +40,7 @@ const articlesConfig: PostMeta[] = [
     date: "2026-04-06",
     tag: ["双指针", "贪心"],
     type:'算法',
-    url: "/blog/posts/algorithm/greedy/theContainerWithTheMostWaterCapacity.html",
+    url: "/blog/posts/algorithm/posts/theContainerWithTheMostWaterCapacity.html",
     imgUrl: theContainerWithTheMostWaterCapacity
   },
   {
@@ -50,7 +50,7 @@ const articlesConfig: PostMeta[] = [
     date: "2026-04-06",
     tag: ["项目问题"],
     type:'日志',
-    url: "/blog/posts/logger/2026072301.html",
+    url: "/blog/posts/logger/202604072301.html",
   }
 ];
 

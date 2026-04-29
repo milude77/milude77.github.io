@@ -1,9 +1,5 @@
 <template>
-    <div>
-        <router-link class="mini-game-page" to="/miniGame/dodgeBall">
-            <img loading="lazy" :src="dodgeBall" alt="题目图">
-            躲避球
-        </router-link>
+    <div class="mini-game-container">
     </div>
 </template>
 
@@ -13,25 +9,27 @@ import dodgeBall from "@/assets/gameImages/dodgeBall.png";
 </script>
 
 <style scoped>
-
-.mini-game-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.mini-game-container {
+    display: grid;
     justify-content: center;
-    padding: auto;
-    width: 250px;
-    height: 220px;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
+    padding: 40px;
+    grid-template-rows: auto auto auto auto auto;
+    grid-template-columns: auto auto;
+}
+
+.mini-game-container > .mini-game-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     text-decoration: none;
+    color: black;
     font-size: 20px;
-    color: aliceblue;
+    font-weight: bold;
 }
 
 img {
     width: 200px;
     height: 150px
 }
-
 </style>

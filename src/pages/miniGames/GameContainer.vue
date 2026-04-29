@@ -11,7 +11,10 @@ import NotFoundPage from '@/pages/NotFoundPage.vue'
 
 const gameMap: Record<string, any> = {
   dodgeBall: defineAsyncComponent(() =>
-    import('@/pages/miniGames/DodgeBall.vue')
+    import('@/pages/miniGames/DodgeBall/main.vue')
+  ),
+  lassoingGeese: defineAsyncComponent(() =>
+    import('@/pages/miniGames/LassoingGeese/main.vue')
   ),
 }
 

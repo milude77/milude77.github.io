@@ -30,6 +30,7 @@ export async function initSnowBackground(options?: {
   container.style.backgroundSize = "cover";
   container.style.backgroundPosition = "center";
   container.style.backgroundRepeat = "no-repeat";
+  container.style.backgroundAttachment = "fixed";
   container.style.zIndex = "-1";
   container.style.opacity = "0.8";
   container.style.pointerEvents = "none";

@@ -16,7 +16,6 @@
   "dependencies": {
     "@iconify/vue": "^5.0.0",
     "element-plus": "^2.13.6",
-    "gray-matter": "^4.0.3",
     "markdown-it": "^14.1.1",
     "markdown-it-mathjax3": "^4.3.2",
     "three": "^0.183.2",
@@ -26,9 +25,11 @@
   "devDependencies": {
     "@types/markdown-it": "^14.1.2",
     "@types/node": "^24.12.0",
+    "@types/three": "^0.183.1",
     "@vitejs/plugin-vue": "^6.0.5",
     "@vue/tsconfig": "^0.9.0",
     "gh-pages": "^6.3.0",
+    "gray-matter": "^4.0.3",
     "typescript": "~5.9.3",
     "vite": "^8.0.1",
     "vitepress": "^1.6.4",
