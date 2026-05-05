@@ -4,7 +4,6 @@
 </template>
 
 <script setup lang="ts">
-import dodgeBall from "@/assets/gameImages/dodgeBall.png";
 
 </script>
 

@@ -6,16 +6,10 @@
 
 import { computed } from 'vue'
 import { useRoute } from 'vue-router';
-import { defineAsyncComponent } from 'vue';
 import NotFoundPage from '@/pages/NotFoundPage.vue'
 
 const gameMap: Record<string, any> = {
-  dodgeBall: defineAsyncComponent(() =>
-    import('@/pages/miniGames/DodgeBall/main.vue')
-  ),
-  lassoingGeese: defineAsyncComponent(() =>
-    import('@/pages/miniGames/LassoingGeese/main.vue')
-  ),
+
 }
 
 const route = useRoute();
@@ -26,6 +20,4 @@ const currentGame = computed(() => {
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
