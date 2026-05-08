@@ -15,12 +15,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/pages/AboutPage.vue"),
   },
   {
-    path: "/mini-game-list",
-    component: () => import("@/pages/miniGames/MiniGamePage.vue"),
-  },
-  {
-    path: "/miniGame/:gameName",
-    component: () => import("@/pages/miniGames/GameContainer.vue"),
+    path: "/notepad",
+    component: () => import("@/pages/NotepadPage.vue"),
   },
   {
     path: "/:pathMatch(.*)*", // 404 页面

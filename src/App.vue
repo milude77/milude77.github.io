@@ -1,20 +1,37 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { ElInput, ElButton } from 'element-plus';
+import { ElButton, ElDropdown, ElDropdownMenu, ElDropdownItem } from 'element-plus';
 import { initSnowBackground } from './assets/rootPageAssets/ts/SnowflakeFallingEffect.ts'
+import { login, logout } from './utils/supabase.js'
+import Avatar from './components/Avatar.vue'
+
+import { useUserStore } from './stores/user'
+
 
 initSnowBackground()
 
-const keyword = ref('');
 const sentinel = ref<HTMLElement | null>(null);
-const isSticky= ref<boolean>(false)
+const isSticky = ref<boolean>(false)
 const route = useRoute()
-const handleSearch = () => {
-  console.log('搜索内容:', keyword.value);
-};
+
+const userStore = useUserStore();
+const user = computed(() => userStore.user);
+
+
+const greeting = computed(() => {
+  const currentHour = new Date().getHours();
+  if (currentHour >= 5 && currentHour < 9) return '早上好';
+  if (currentHour >= 9 && currentHour < 12) return '上午好';
+  if (currentHour >= 12 && currentHour < 14) return '中午好';
+  if (currentHour >= 14 && currentHour < 18) return '下午好';
+  return '晚上好';
+});
 
 onMounted(() => {
+
+  userStore.init();
+
   const observer = new IntersectionObserver(
     ([entry]) => {
       isSticky.value = !entry.isIntersecting
@@ -29,13 +46,15 @@ onMounted(() => {
   }
 })
 
+
+
 const isShow = ref(true)
 
 watch(route, () => {
-  if (route.path.startsWith('/miniGame')){
+  if (route.path.startsWith('/miniGame')) {
     isShow.value = false
   }
-  else{
+  else {
     isShow.value = true
   }
 })
@@ -52,16 +71,35 @@ watch(route, () => {
           <nav>
             <router-link to="/">首页</router-link>
             <router-link to="/posts-list">文章</router-link>
-            <router-link to="/mini-game-list">小游戏</router-link>
+            <router-link to="/notepad">记事本</router-link>
             <router-link to="/about">关于作者</router-link>
           </nav>
         </div>
-        <div class="header-search-bar">
-          <ElInput v-model="keyword" placeholder="请输入关键词" clearable @keyup.enter="handleSearch">
-            <template #append>
-              <ElButton @click="handleSearch">搜索</ElButton>
+        <div class="header-login-bar" v-if="!user">
+          <ElButton type="primary" @click="login">
+            <template #icon>
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                <path fill="currentColor"
+                  d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33c.85 0 1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z" />
+              </svg>
             </template>
-          </ElInput>
+            GitHub 登录
+          </ElButton>
+        </div>
+        <div v-else class="user-info">
+          <span class="greeting-text">{{ greeting }}, </span>
+          <el-dropdown>
+            <span class="el-dropdown-link">
+              <span></span>
+              <Avatar :size="32" :src="user.user_metadata.avatar_url" alt="用户头像" />
+              <span class="username">{{ user.user_metadata.full_name || user.user_metadata.user_name }}</span>
+            </span>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </div>
       </div>
     </header>
@@ -77,7 +115,6 @@ watch(route, () => {
 </template>
 
 <style scoped>
-
 #app {
   width: 100%;
   height: 100%;
@@ -102,7 +139,7 @@ header {
 /* sticky 触发后 */
 header.stickyActive {
   background-color: rgba(20, 20, 20, 0.8);
-  backdrop-filter: blur(10px); 
+  backdrop-filter: blur(10px);
 }
 
 header h1 {
@@ -128,8 +165,8 @@ nav a:hover {
 }
 
 nav a.router-link-exact-active {
-  color: var(--accent) !important;
-  text-decoration: underline !important;
+  color: var(--accent);
+  text-decoration: underline;
 }
 
 footer {
@@ -156,21 +193,37 @@ footer a:hover {
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
-  justify-content: space-between;
 }
 
 .header-nav-bar {
   display: flex;
   flex: 1;
-  justify-content: end;
-  transform: translateX(-30%);
+  justify-content: center;
+  transform: translateX(60px);
 }
 
-.header-search-bar {
+.header-login-bar {
+  transform: translateX(-30px);
+}
+
+.user-info {
   display: flex;
-  flex: 1;
-  max-width: 300px;
-  margin: 0 16px;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transform: translateX(-60px);
+}
+
+.el-dropdown-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--el-text-color-primary);
+}
+
+.username {
+  color: aliceblue;
+  font-weight: 500;
 }
 
 
