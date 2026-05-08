@@ -1,0 +1,1 @@
+import{$ as e,L as t,V as n,_ as r,d as i,m as a,t as o,v as s}from"./_plugin-vue_export-helper-SWhK-GNp.js";var c={};function l(o,c){let l=n(`router-link`);return t(),a(`div`,null,[c[1]||=i(`h1`,null,`啊哦， 来到的没有知识的空白页`,-1),c[2]||=i(`p`,null,`您访问的页面不存在。`,-1),s(l,{to:`/`},{default:e(()=>[...c[0]||=[r(`返回首页`,-1)]]),_:1})])}var u=o(c,[[`render`,l]]);export{u as default};
