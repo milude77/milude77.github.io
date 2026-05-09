@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { ElButton, ElDropdown, ElDropdownMenu, ElDropdownItem } from 'element-plus';
+import { ElButton, ElDropdown, ElDropdownMenu, ElDropdownItem, ElMessage } from 'element-plus';
+import { Calendar } from '@element-plus/icons-vue'
 import { initSnowBackground } from './assets/rootPageAssets/ts/SnowflakeFallingEffect.ts'
-import { login, logout } from './utils/supabase.js'
+import { login, logout, checkInToday } from './utils/supabase.js'
 import Avatar from './components/Avatar.vue'
 
 import { useUserStore } from './stores/user'
+import { color } from 'three/tsl';
 
 
 initSnowBackground()
@@ -14,10 +16,12 @@ initSnowBackground()
 const sentinel = ref<HTMLElement | null>(null);
 const isSticky = ref<boolean>(false)
 const route = useRoute()
+const checkInLoding = ref<boolean>(false)
 
 const userStore = useUserStore();
 const user = computed(() => userStore.user);
-
+const streak = computed(() => userStore.checkInData?.streak || 0);
+const isCheckedInToday = computed(() => userStore.isAreadyCheckIn);
 
 const greeting = computed(() => {
   const currentHour = new Date().getHours();
@@ -59,6 +63,30 @@ watch(route, () => {
   }
 })
 
+const handleCheckInToday = async () => {
+  if (checkInLoding.value) return;
+  checkInLoding.value = true;
+  const { data, updatedStreak, error } = await checkInToday()
+  if (error) {
+    if (updatedStreak) {
+      ElMessage.success(`今日已完成打卡, 已连续打卡 ${updatedStreak} 天`)
+    }
+    else {
+      ElMessage.error(error.message)
+    }
+  }
+  else {
+    ElMessage.success(`打卡成功， 已连续打卡 ${updatedStreak} 天`)
+  }
+  checkInLoding.value = false;
+}
+
+watch(checkInLoding, () => {
+  if (checkInLoding.value) {
+    ElMessage.info('打卡中...')
+  }
+})
+
 </script>
 
 <template>
@@ -87,19 +115,22 @@ watch(route, () => {
           </ElButton>
         </div>
         <div v-else class="user-info">
-          <span class="greeting-text">{{ greeting }}, </span>
-          <el-dropdown>
-            <span class="el-dropdown-link">
-              <span></span>
-              <Avatar :size="32" :src="user.user_metadata.avatar_url" alt="用户头像" />
-              <span class="username">{{ user.user_metadata.full_name || user.user_metadata.user_name }}</span>
-            </span>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
+          <el-button v-if="!isCheckedInToday" @click="handleCheckInToday" class="check-in-today"
+            :icon="Calendar"></el-button>
+          <el-button v-else :icon="Calendar" class="check-in-today-completed"">{{ streak }}</el-button>
+          <span class=" greeting-text">{{ greeting }}, </span>
+            <el-dropdown>
+              <span class="el-dropdown-link">
+                <span></span>
+                <Avatar :size="32" :src="user.user_metadata.avatar_url" alt="用户头像" />
+                <span class="username">{{ user.user_metadata.full_name || user.user_metadata.user_name }}</span>
+              </span>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
         </div>
       </div>
     </header>
@@ -254,5 +285,9 @@ footer a:hover {
     flex-wrap: wrap;
     gap: 16px;
   }
+}
+
+.check-in-today-completed {
+  background-color: rgba(174, 248, 174, 0.9);
 }
 </style>

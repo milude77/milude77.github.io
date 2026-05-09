@@ -18,6 +18,9 @@ export interface Todo {
 export async function login(): Promise<void> {
   await supabase.auth.signInWithOAuth({
     provider: "github",
+    options: {
+      redirectTo: "http://localhost:5173",
+    },
   });
 }
 
@@ -68,4 +71,25 @@ export async function completeTask(id: number | string) {
 export async function deleteTask(id: number | string) {
   const { data, error } = await supabase.from("todos").delete().eq("id", id);
   return { data, error };
+}
+
+export async function checkInToday(): Promise<{
+  data?: any;
+  updatedStreak?: number;
+  error?: any;
+}> {
+  const user = (await supabase.auth.getUser()).data.user;
+
+  if (!user) return { error: { message: "请先登录" } };
+
+  // 调用 RPC，只传用户 ID
+  const { data, error } = await supabase.rpc("handle_daily_check_in", {
+    target_user_id: user.id,
+  });
+
+  return {
+    data,
+    updatedStreak: data?.streak,
+    error,
+  };
 }

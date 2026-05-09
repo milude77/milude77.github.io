@@ -106,8 +106,8 @@ const handleSave = (item : Todo) => {
     item.isEditing = false;
 };
 
-onMounted(() => {
-    fetchTodos()
+onMounted(async() => {
+    await fetchTodos()
 })
 </script>
 
@@ -132,12 +132,12 @@ onMounted(() => {
                     <div v-for="item in todos" :key="item.id" class="todo-item">
                         <div class="todo-info">
                             <!-- 通过 :readonly 控制是否可以编辑 -->
-                            <el-input v-model="item.task" :readonly="!item.isEditing"
+                            <el-input v-model="item.task" :readonly="!item.isEditing || item.is_completed"
                                 :class="{ 'is-editing': item.isEditing }" size="large"
                                 @keyup.enter="handleSave(item)" />
 
                             <!-- 编辑/完成 切换按钮 -->
-                            <el-button class="edit-toggle-btn" :type="item.isEditing ? 'primary' : ''" size="small"
+                            <el-button v-if="!item.is_completed" class="edit-toggle-btn" :type="item.isEditing ? 'primary' : ''" size="small"
                                 @click="toggleEdit(item)"
                                 :icon="item.isEditing ? Check : EditPen"
                                 > 
