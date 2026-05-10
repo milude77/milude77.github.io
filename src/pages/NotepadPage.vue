@@ -3,12 +3,14 @@ import { ref, onMounted, watch } from 'vue'
 import { getMyTasks, addTask, deleteTask, completeTask, updateTask, type Todo } from '../utils/supabase'
 import { useUserStore } from '../stores/user'
 import { Plus, Delete, Check, EditPen } from '@element-plus/icons-vue'
-import { ElMessage, ElInput, ElButton, ElEmpty, ElDatePicker  } from 'element-plus'
+import { ElMessage, ElInput, ElButton, ElEmpty, ElDatePicker } from 'element-plus'
+import useAsyncLoading from "@/utils/useAsyncLoding"
 
 const userStore = useUserStore()
 const todos = ref<Todo[]>([])
 const newTask = ref('')
-const isListLoading = ref(false) // 仅用于列表区域的加载
+const isListLoading = ref(false)
+
 let curDate = ref(new Date())
 const formatDate = (date: Date) => {
     const y = date.getFullYear()
@@ -64,7 +66,6 @@ const handleAdd = async () => {
         if (data) {
             todos.value.unshift(data[0])
             newTask.value = ''
-            ElMessage.success('添加成功')
         }
     } catch (err: any) {
         ElMessage.error('添加失败: ' + err.message)
@@ -89,7 +90,10 @@ const handleTaskComplete = async (id: number) => {
     }
 }
 
-const toggleEdit = (item: Todo ) => {
+const { loading: isTaskCompletedLoading, run: taskComplete } = useAsyncLoading(handleTaskComplete)
+const { loading: isTaskAddLoading, run: taskAdded } = useAsyncLoading(handleAdd)
+
+const toggleEdit = (item: Todo) => {
     if (item.isEditing) {
         // 如果当前是编辑状态，点击后执行保存
         handleSave(item);
@@ -99,14 +103,14 @@ const toggleEdit = (item: Todo ) => {
     }
 };
 
-const handleSave = (item : Todo) => {
+const handleSave = (item: Todo) => {
     // 执行更新任务的函数
     updateTask(item.id, item.task);
     // 关闭编辑模式
     item.isEditing = false;
 };
 
-onMounted(async() => {
+onMounted(async () => {
     await fetchTodos()
 })
 </script>
@@ -122,7 +126,7 @@ onMounted(async() => {
             <div class="input-group">
                 <el-input v-model="newTask" placeholder="写下今天的计划..." size="large" @keyup.enter="handleAdd">
                     <template #append>
-                        <el-button title="添加计划" :icon="Plus" @click="handleAdd" />
+                        <el-button title="添加计划" :icon="Plus" @click="taskAdded" />
                     </template>
                 </el-input>
             </div>
@@ -137,17 +141,16 @@ onMounted(async() => {
                                 @keyup.enter="handleSave(item)" />
 
                             <!-- 编辑/完成 切换按钮 -->
-                            <el-button v-if="!item.is_completed" class="edit-toggle-btn" :type="item.isEditing ? 'primary' : ''" size="small"
-                                @click="toggleEdit(item)"
-                                :icon="item.isEditing ? Check : EditPen"
-                                > 
+                            <el-button v-if="!item.is_completed" class="edit-toggle-btn"
+                                :type="item.isEditing ? 'primary' : ''" size="small" @click="toggleEdit(item)"
+                                :icon="item.isEditing ? Check : EditPen">
                             </el-button>
                         </div>
 
                         <!-- 右侧操作区 -->
                         <div v-if="!item.is_completed" class="task-option-btn">
                             <el-button type="success" :icon="Check" circle size="small"
-                                @click="handleTaskComplete(item.id)" />
+                                @click="taskComplete(item.id)" />
                             <el-button type="danger" :icon="Delete" circle size="small"
                                 @click="handleDelete(item.id)" />
                         </div>
